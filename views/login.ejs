@@ -1,0 +1,24 @@
+<%- include("partials/header.ejs") %>
+<div class="login-box">
+    <div class="login-content">
+        <h3>Login</h3>
+        <form action="/login" method="POST">
+            <div class="username">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username">    
+            </div>
+            <div class="password">
+                <label for="password">Password:</label>
+                <input type="password" id="pass" name="password" minlength="8" required>
+            </div>
+            <div class="login-login">
+            <button class="btn btn-secondary btn-sm" type="submit">Login</button>
+            </div>
+            <div class="account">
+                <a href="/register" type="button" class="btn btn-outline-secondary btn-sm">Haven't registered yet?</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include("partials/footer.ejs") %>

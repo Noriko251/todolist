@@ -1,0 +1,196 @@
+body {
+    background-color: #CDE8E5;
+    background-image: -webkit-linear-gradient(65deg,#CDE8E5 30%,#7AB2B2 70%);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position: relative;
+    min-height: 800px;
+}
+
+.logout {
+    margin-top: 5%;
+    margin-left: 70%;
+}
+
+h1 {
+    color: #135D66;
+    text-align: center;
+}
+
+.home {
+    margin-top: 3%;
+}
+
+.home-box {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 750px;
+    margin: 0 auto;
+    color: #135D66;
+}
+
+.home-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 200px;
+    height: 150px;
+    margin: auto;
+}
+
+.register {
+    margin: 20px;
+}
+
+.login-box {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 750px;
+    margin: 0 auto;
+    color: #135D66;
+}
+
+.login-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 400px;
+    height: 200px;
+    margin: auto;
+    color: #135D66;
+}
+
+.register-box {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 750px;
+    margin: 0 auto;
+    color: #135D66;
+}
+
+.register-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 400px;
+    height: 200px;
+    margin: auto;
+    color: #135D66;
+}
+
+.password {
+    margin-left: 5px;
+}
+
+.register-submit, .login-login {
+    margin-top: 6px;
+}
+
+.account {
+    display: block;
+    width: 400px;
+    margin: 20px auto;
+}
+
+.box2 {
+    margin-top: 1%;
+    margin-left: 40%;
+    padding: 3%;
+    max-width: 450px;
+    margin: 30px auto;
+    background: white;
+    border-radius: 5% 25%;
+    box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+}
+ @media only screen and (max-width: 767px) {
+    .box2 {
+        max-width: 300px;
+    }
+ }
+
+.box3 {
+    text-align: center;
+}
+
+.task {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f1f1f1;
+    margin: 0 8%;
+}
+
+.lastTask {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    margin: 0 8%;
+}
+
+.checkboxStatus {
+    display: flex;
+    align-items: center;
+}
+
+input {
+    margin: 15px 15px 15px 0;
+    border: none;
+    border-radius: 5px;
+}
+
+input[type="checkbox"]:checked {
+    accent-color: #135D66;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: inset 0 -3px 0 0 #7AB2B2;
+  }
+
+p {
+    margin: 15px 15px;
+}
+
+.icon {
+    border: none;
+    background: transparent;
+}
+
+img {
+    width: 20px;
+    height: 20px;
+    color: #7AB2B2;
+}
+
+.taskTitleCrossed {
+    text-decoration: line-through;
+    text-decoration-color: #135D66;
+  }
+
+.btn-primary {
+    background-color: #135D66;
+    border-color: #135D66;
+    margin-bottom: 5px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 1%;
+    margin-bottom: 3%;
+    color: #135D66;
+}

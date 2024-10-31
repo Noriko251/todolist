@@ -1,0 +1,95 @@
+<%- include("partials/header.ejs") %>
+<a class="btn btn-outline-light logout" type="button" href="/logout">Log Out</a>
+
+<div class="box" id="heading">
+    <h1>To-Do List</h1>
+</div>
+<div class="box2">
+    <% for(let i = 0; i < taskList.length; i++) { %>
+        <% if (i === taskList.length-1) {%>
+        <div class="lastTask">
+            <form action="/checked" class="checkboxStatus" method="post">
+                <% if (taskList[i].done === false){ %>
+                   <input id="<%=taskList[i].id%>" type="checkbox" onchange="this.form.submit()" name="checkedTask" value="<%=taskList[i].id%>">
+                   <p id="content<%= taskList[i].id %>" class="taskContent">
+                    <%= taskList[i].content %>
+                    </p>
+                    <button class="icon pencil" id="edit<%= taskList[i].id %>" onclick="handler('<%= taskList[i].id %>')">
+                        <img src="/images/pencil.svg" alt="pencil image">
+                    </button>
+                <% } else if (taskList[i].done === true){ %>
+                    <input type="checkbox" class="checkedCross" onchange="this.form.submit()" checked>
+                    <input id="<%=taskList[i].id%>" type="hidden" name="checkedTask" value="<%=taskList[i].id%>">
+                    <p class="taskTitleCrossed">
+                        <%= taskList[i].content %>
+                    </p>
+                 <% } %>
+            </form>
+            <form class="edit" action="/edit" method="post">
+                <input type="hidden" name="updatedTaskId" value="<%= taskList[i].id %>">
+                <input id="input<%= taskList[i].id %>" type="text" name="updatedTaskContent" value="<%= taskList[i].content %>" hidden="true">
+                <button class="icon tick" id="done<%= taskList[i].id %>" type="submit" hidden>
+                    <img class="tick" src="/images/tick.svg" alt="tick image">
+                </button>
+            </form>
+            <form class="delete" action="/delete" method="post">
+                <button class="icon trash" name="deletedTask" value="<%= taskList[i].id %>">
+                    <img src="/images/trash.svg" alt="trash image">
+                </button>
+            </form>
+        </div>
+        <% } else if (i < taskList.length-1) { %>
+        <div class="task">
+            <form action="/checked" class="checkboxStatus" method="post">
+                <% if (taskList[i].done === false){ %>
+                   <input id="<%=taskList[i].id%>" type="checkbox" onchange="this.form.submit()" name="checkedTask" value="<%=taskList[i].id%>">
+                   <p id="content<%= taskList[i].id %>" class="taskContent">
+                    <%= taskList[i].content %>
+                    </p>
+                    <button class="icon pencil" id="edit<%= taskList[i].id %>" onclick="handler('<%= taskList[i].id %>')">
+                        <img src="/images/pencil.svg" alt="pencil image">
+                    </button>
+                <% } else if (taskList[i].done === true){ %>
+                    <input type="checkbox" class="checkedCross" onchange="this.form.submit()" checked>
+                    <input id="<%=taskList[i].id%>" type="hidden" name="checkedTask" value="<%=taskList[i].id%>">
+                    <p class="taskTitleCrossed">
+                        <%= taskList[i].content %>
+                    </p>
+                 <% } %>
+            </form>
+            <form class="edit" action="/edit" method="post">
+                <input type="hidden" name="updatedTaskId" value="<%= taskList[i].id %>">
+                <input id="input<%= taskList[i].id %>" type="text" name="updatedTaskContent" value="<%= taskList[i].content %>" hidden="true">
+                <button class="icon tick" id="done<%= taskList[i].id %>" type="submit" hidden>
+                    <img class="tick" src="/images/tick.svg" alt="tick image">
+                </button>
+            </form>
+            <form class="delete" action="/delete" method="post">
+                <button class="icon trash" name="deletedTask" value="<%= taskList[i].id %>">
+                    <img src="/images/trash.svg" alt="trash image">
+                </button>
+            </form>
+        </div>
+        <%} %>
+    <% } %>
+</div>
+<div class="box3">
+    <form action="/add" method="POST">
+        <input type="text" name="add" placeholder=" New Task">
+        <button class="btn btn-primary" type="submit">Add</button>
+    </form>
+</div>
+
+<script>
+    function handler(id) {
+      document.getElementById("content" + id).setAttribute("hidden", true)
+      document.getElementById("edit" + id).setAttribute("hidden", true)
+      document.getElementById("done" + id).removeAttribute("hidden")
+      document.getElementById("input" + id).removeAttribute("hidden")
+    }
+    function handler2(id) {
+      document.getElementById("edit" + id).setAttribute("hidden", true)
+    }
+</script>
+
+<%- include("partials/footer.ejs") %>

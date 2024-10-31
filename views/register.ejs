@@ -1,0 +1,23 @@
+<%- include("partials/header.ejs") %>
+<div class="register-box">
+    <div class="register-content">
+        <h3>Register</h3>
+        <form action="/register" method="POST">
+            <div class="username">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username">    
+            </div>
+            <div class="password">
+                <label for="password">Password:</label>
+                <input type="password" id="pass" name="password" minlength="8" required>
+            </div>
+            <div class="register-submit">
+            <button class="btn btn-secondary btn-sm" type="submit">Submit</button>
+            </div>
+            <div class="account">
+            <a href="/login" type="button" class="btn btn-outline-secondary btn-sm">Already have an account?</a>
+            </div>
+        </form>
+    </div>
+</div>
+<%- include("partials/footer.ejs") %>
