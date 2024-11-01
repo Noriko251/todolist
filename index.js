@@ -34,14 +34,12 @@ app.use(express.static("public"));
 app.use(passport.initialize());
 app.use(passport.session());
 
-const db = new pg.Client({
-    user: process.env.PG_USER,
-    host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
-    password: process.env.PG_PASSWORD,
-    port: process.env.PG_PORT,
+const { Pool } = pg
+
+const pool = new Pool({
+    connectionString: process.env.POSTGRES_URL,
   });
-  db.connect();
+  pool.connect();
 
 app.get("/", (req, res) => {
     res.render("home.ejs");
@@ -68,7 +66,7 @@ app.get("/todolist", async (req, res) => {
     try{
     if (req.isAuthenticated()) {
         const userId = req.user.id;
-        const result = (await db.query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY id ASC", [
+        const result = (await pool.query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY id ASC", [
                 userId
                 ]));
         const taskList = result.rows;
@@ -92,7 +90,7 @@ app.post("/register", async (req, res) => {
     const password = req.body.password;
 
     try {
-        const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [
+        const checkResult = await pool.query("SELECT * FROM users WHERE email = $1", [
             email,
         ]);
         if (checkResult.rows.length > 0) {
@@ -102,7 +100,7 @@ app.post("/register", async (req, res) => {
                 if (err) {
                     console.error("Error hashing password:", err);
                 } else {
-                    const result = await db.query(
+                    const result = await pool.query(
                         "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
                         [email, hash]
                     );
@@ -125,7 +123,7 @@ app.post("/add", async (req, res) => {
     let taskStatus = req.body.id;
 
     try {
-        await db.query(
+        await pool.query(
             "INSERT INTO tasks (content, user_id) VALUES ($1, $2) RETURNING *", [
             task, userId,
         ])
@@ -138,16 +136,16 @@ app.post("/add", async (req, res) => {
 app.post("/checked", async (req, res) => {
     try {
     const checkedTask = req.body.checkedTask;
-    const taskStatus = await db.query(
+    const taskStatus = await pool.query(
         "SELECT done FROM tasks WHERE id = $1", [checkedTask]
     );
         if (taskStatus.rows[0].done === false) {
-            await db.query(
+            await pool.query(
                 "UPDATE tasks SET done = true WHERE id = $1", [checkedTask]
                 )
                 res.redirect("/todolist");
         } else if (taskStatus.rows[0].done === true){
-            await db.query(
+            await pool.query(
                 "UPDATE tasks SET done = false WHERE id = $1", [checkedTask]
                 )
                 res.redirect("/todolist");
@@ -160,14 +158,14 @@ app.post("/checked", async (req, res) => {
 app.post("/edit", async (req, res) => {
     const taskId = req.body.updatedTaskId;
     const taskContent = req.body.updatedTaskContent;
-    await db.query("UPDATE tasks SET content = $1 WHERE id = $2", [taskContent, taskId]);
+    await pool.query("UPDATE tasks SET content = $1 WHERE id = $2", [taskContent, taskId]);
     res.redirect("/todolist");
 })
 
 app.post("/delete", async (req, res) => {
     const taskId = req.body.deletedTask;
     try{
-        await db.query("DELETE FROM tasks WHERE id = $1;", [taskId]);
+        await pool.query("DELETE FROM tasks WHERE id = $1;", [taskId]);
         res.redirect("/todolist");
       } catch(err){
         console.log(err);
@@ -176,7 +174,7 @@ app.post("/delete", async (req, res) => {
 
 passport.use(new Strategy (async function verify(username, password, cb){
     try {
-        const result = await db.query("SELECT * FROM users WHERE email = $1", [
+        const result = await pool.query("SELECT * FROM users WHERE email = $1", [
             username,
         ]);
         if (result.rows.length > 0){
