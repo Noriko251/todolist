@@ -33,8 +33,6 @@ app.use(express.static("public"));
 app.use(passport.initialize());
 app.use(passport.session());
 
-  pool.connect();
-
 app.get("/", (req, res) => {
     res.render("home.ejs");
 });
