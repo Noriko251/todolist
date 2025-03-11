@@ -7,12 +7,14 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import session from "express-session";
 import env from "dotenv";
-import { Pool } from "pg";
+import pg from "pg";
 import connectPgSimple from "connect-pg-simple";
 import pgPromise from "pg-promise";
 
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
+
+const { Pool } = pg;
 
 const pgp = pgPromise();
 
