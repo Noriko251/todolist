@@ -8,16 +8,34 @@ import { Strategy } from "passport-local";
 import session from "express-session";
 import env from "dotenv";
 import pg from "pg";
+import connectPgSimple from "connect-pg-simple";
+import pgPromise from "pg-promise";
 
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
+
+const pgp = pgPromise();
 
 const app = express();
 const saltRounds = 10;
 env.config();
 
+const db = pgp({
+  user: process.env.PG_USER,
+  host: process.env.PG_HOST,
+  database: process.env.PG_DATABASE,
+  password: process.env.PG_PASSWORD,
+  port: process.env.PG_PORT,
+});
+db.connect();
+
+const PgSession = connectPgSimple(session);
+
 app.use(
     session({
+        store: new PgSession({
+            pgPromise:db,
+        }),
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: true,
@@ -26,15 +44,6 @@ app.use(
         },
     })
 );
-
-const db = new pg.Client({
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DATABASE,
-  password: process.env.PG_PASSWORD,
-  port: process.env.PG_PORT,
-});
-db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
