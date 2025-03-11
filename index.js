@@ -7,7 +7,7 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import session from "express-session";
 import env from "dotenv";
-import pg from "pg";
+import { Pool } from "pg";
 import connectPgSimple from "connect-pg-simple";
 import pgPromise from "pg-promise";
 
@@ -20,21 +20,18 @@ const app = express();
 const saltRounds = 10;
 env.config();
 
-const db = pgp({
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DATABASE,
-  password: process.env.PG_PASSWORD,
-  port: process.env.PG_PORT,
+const db = new Pool({
+    connectionString: process.env.DATABASE_URL,
 });
-db.connect();
 
 const PgSession = connectPgSimple(session);
+
+app.set("view engine", "ejs");
 
 app.use(
     session({
         store: new PgSession({
-            pgPromise:db,
+            pool:db,
         }),
         secret: process.env.SESSION_SECRET,
         resave: false,
