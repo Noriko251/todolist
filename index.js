@@ -109,7 +109,7 @@ app.post("/register", async (req, res) => {
             email,
         ]);
         console.log(checkResult);
-        if (result && result.rows && result.rows.length > 0) {
+        if (checkResult && checkResult.rows && checkResult.rows.length > 0) {
             res.redirect("/login");
         } else {
             bcrypt.hash(password, saltRounds, async (err, hash) => {
