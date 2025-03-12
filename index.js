@@ -24,23 +24,23 @@ env.config();
 
 const db = pgp(process.env.DATABASE_URL);
 
-// const PgSession = connectPgSimple(session);
+const PgSession = connectPgSimple(session);
 
 app.set("view engine", "ejs");
 
-// app.use(
-//     session({
-//         store: new PgSession({
-//             pool:db,
-//         }),
-//         secret: process.env.SESSION_SECRET,
-//         resave: false,
-//         saveUninitialized: true,
-//         cookie: {
-//             maxAge: 1000 * 60 * 60 *24,
-//         },
-//     })
-// );
+app.use(
+    session({
+        store: new PgSession({
+            pgPromise:db,
+        }),
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            maxAge: 1000 * 60 * 60 *24,
+        },
+    })
+);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
