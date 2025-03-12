@@ -22,7 +22,10 @@ const app = express();
 const saltRounds = 10;
 env.config();
 
-const db = pgp(process.env.DATABASE_URL);
+const db = pgp({
+    connectionString: process.env.DATABASE_URL,
+    schema: ['public'],
+});
 
 const PgSession = connectPgSimple(session);
 
@@ -32,6 +35,8 @@ app.use(
     session({
         store: new PgSession({
             pgPromise:db,
+            tableName: 'session',
+            schema: 'public'
         }),
         secret: process.env.SESSION_SECRET,
         resave: false,
