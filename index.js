@@ -108,7 +108,8 @@ app.post("/register", async (req, res) => {
         const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [
             email,
         ]);
-        if (checkResult.rows.length > 0) {
+        console.log(checkResult);
+        if (result && result.rows && result.rows.length > 0) {
             res.redirect("/login");
         } else {
             bcrypt.hash(password, saltRounds, async (err, hash) => {
