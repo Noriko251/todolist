@@ -108,7 +108,6 @@ app.post("/register", async (req, res) => {
         const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [
             email,
         ]);
-        console.log(checkResult);
         if (checkResult && checkResult.rows && checkResult.rows.length > 0) {
             res.redirect("/login");
         } else {
@@ -193,7 +192,7 @@ passport.use(new Strategy (async function verify(username, password, cb){
         const result = await db.query("SELECT * FROM users WHERE email = $1", [
             username,
         ]);
-        if (result.rows.length > 0){
+        if (result && result.rows && result.rows.length > 0){
             const user = result.rows[0];
             const storedHashedPassword = user.password;
             bcrypt.compare(password, storedHashedPassword, (err, result) => {
